@@ -113,16 +113,17 @@ class Window(QWidget):
 
     def getImage(self):
         global test_image, classifier
-        fname = QFileDialog.getOpenFileName(self, 'pick image', 'data', "Image files (*.jpg)")
+        fname = QFileDialog.getOpenFileName(self, 'pick image', 'data/Testing', "Image files (*.jpg)")
         imagePath = fname[0]
         test_image = image.load_img(imagePath, target_size = (512, 512))
         pixmap = QPixmap(imagePath)
         self.label1.setPixmap(QPixmap(pixmap))
         self.resize(pixmap.width(), pixmap.height())
 
-        size = (64,64)
+        size = (512,512)
         image.smart_resize(test_image, size)    
         test_image = image.img_to_array(test_image) 
+
         test_image = np.expand_dims(test_image, axis = 0) 
         result = classifier.predict(test_image)
         
