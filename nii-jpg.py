@@ -15,19 +15,19 @@ def save_fig(file):
     (y,x,z) = fdata.shape
     for k in range(z):
         silce = fdata[:,:, k]
-        imageio.imwrite(os.path.join(output, '{}.jpg'.format(os.path.splitext(i)[0][0]+'_'+str(k))),silce)
+        imageio.imwrite(os.path.join(output, '{}.jpg'.format(k)),silce)
 
 def findAllFile(base):
     for root, ds, fs, in os.walk(base):
         for f in fs:
             yield f
 
-base = r'../'
-output = r'../img'
+base = r'data1.nii.gz'
+output = r'jpg'
 for i in findAllFile(base):
     dir = os.path.join(base, i)
     savepicdir = (os.path.join(output,i))
     save_fig(dir)
 
 
-save_fig("data1.nii")
+save_fig(base)
