@@ -7,6 +7,9 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPooling2D
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau, ModelCheckpoint
+import csv
+
+import matplotlib.pyplot as plt
 
 import os
 
@@ -87,12 +90,73 @@ model1_rlr = ReduceLROnPlateau(
 model1_mcp = ModelCheckpoint(filepath='model1_weights.h5', monitor='val_categorical_accuracy',
                              save_best_only=True, verbose=1)
 
-classifier.fit(training_dataset,
+history = classifier.fit(training_dataset,
                steps_per_epoch=89,
                epochs=50,
                validation_data=testing_dataset,
                validation_steps=20,
                callbacks=[model1_es, model1_rlr, model1_mcp])
+
+##################################################################
+# Plots
+##################################################################
+
+acc = history.history['accuracy']
+val_acc = history.history['val_accuracy']
+loss = history.history['loss']
+val_loss = history.history['val_loss']
+
+plt.figure(1)
+plt.plot(acc)
+plt.plot(val_acc)
+plt.title('model accuracy')
+plt.ylabel('accuracy')
+plt.xlabel('epoch')
+plt.legend(['train', 'test'], loc='upper left')
+plt.savefig('acc_plt')
+
+plt.figure(2)
+plt.plot(loss)
+plt.plot(val_loss)
+plt.title('model loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(['train', 'test'], loc='upper left')
+plt.savefig('loss_plt')
+
+##################################################################
+# Save accuracy and results to file
+##################################################################
+
+resultf = open('rf.txt', 'w')
+resultf.close()
+resultf = open('rf.csv', 'a')
+n = 1 #epoch count in data
+csv.writer(resultf).writerow('accuracy')
+for d in acc:
+    row = [n,str(d)]
+    csv.writer(resultf).writerow(row)
+    n = n+1
+n = 1
+csv.writer(resultf).writerow('val_accuracy')
+for d in val_acc:
+    row = [n,str(d)]
+    csv.writer(resultf).writerow(row)
+    n = n+1
+n = 1
+csv.writer(resultf).writerow('loss')
+for d in loss:
+    row = [n,str(d)]
+    csv.writer(resultf).writerow(row)
+    n = n+1
+n = 1
+csv.writer(resultf).writerow('val_loss')
+for d in val_loss:
+    row = [n,str(d)]
+    csv.writer(resultf).writerow(row)
+    n = n+1
+resultf.close()
+
 
 ##################################################################
 # Save Progress
