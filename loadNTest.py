@@ -98,7 +98,11 @@ class HomePage(QMainWindow):
         widget.addWidget(signup)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
-
+    def gotohelp(self):
+        help = Help()
+        widget.addWidget(help)
+        widget.setCurrentIndex(widget.currentIndex() + 1)  
+        
 class MainFunction(QDialog):
     def __init__(self):
         super(MainFunction, self).__init__()
@@ -223,7 +227,17 @@ class Signup(QDialog):
         widget.addWidget(homePage)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
+class Help(QDialog):
+    def __init__(self):
+        super(Help, self).__init__()
+        loadUi("D:/google downloads/Intelligent-Neurosurgical-Patient-Profiling-Model_Project-master/Intelligent-Neurosurgical-Patient-Profiling-Model_Project-master/ui/help.ui", self)
+        self.homeButton.clicked.connect(self.backtohome)
 
+        
+
+    def backtohome(self):
+        widget.addWidget(homePage)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
 App = QApplication(sys.argv)
 homePage = HomePage()
 widget = QStackedWidget()
