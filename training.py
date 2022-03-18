@@ -26,7 +26,7 @@ classifier.add(MaxPooling2D(pool_size=(6, 6)))
 
 classifier.add(Flatten())
 
-classifier.add(Dense(units=252, activation="relu"))
+classifier.add(Dense(units=252, activation='sigmoid'))
 classifier.add(Dense(units=4, activation='softmax'))
 
 classifier.compile(
@@ -128,29 +128,29 @@ plt.savefig('loss_plt')
 # Save accuracy and results to file
 ##################################################################
 
-resultf = open('rf.txt', 'w')
+resultf = open('rf.csv', 'w')
 resultf.close()
 resultf = open('rf.csv', 'a')
 n = 1 #epoch count in data
-csv.writer(resultf).writerow('accuracy')
+csv.writer(resultf).writerow('ACCURACY')
 for d in acc:
     row = [n,str(d)]
     csv.writer(resultf).writerow(row)
     n = n+1
 n = 1
-csv.writer(resultf).writerow('val_accuracy')
+csv.writer(resultf).writerow('VAL_ACCURACY')
 for d in val_acc:
     row = [n,str(d)]
     csv.writer(resultf).writerow(row)
     n = n+1
 n = 1
-csv.writer(resultf).writerow('loss')
+csv.writer(resultf).writerow('LOSS')
 for d in loss:
     row = [n,str(d)]
     csv.writer(resultf).writerow(row)
     n = n+1
 n = 1
-csv.writer(resultf).writerow('val_loss')
+csv.writer(resultf).writerow('VAL_LOSS')
 for d in val_loss:
     row = [n,str(d)]
     csv.writer(resultf).writerow(row)
@@ -168,9 +168,9 @@ classifier.summary()
 
 # serialize model to JSON
 model_json = classifier.to_json()
-with open("model.json", "w") as json_file:
+with open("model softmax.json", "w") as json_file:
     json_file.write(model_json)
 
 # serialize weights to HDF5
-classifier.save_weights("model-50times-rmffd.h5")
+classifier.save_weights("model softmax.h5")
 print("Saved model to disk")

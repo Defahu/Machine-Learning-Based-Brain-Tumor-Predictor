@@ -29,7 +29,7 @@ classifier.add(MaxPooling2D(pool_size=(6, 6)))
 
 classifier.add(Flatten())
 
-classifier.add(Dense(units=252, activation="relu"))
+classifier.add(Dense(units=252, activation='sigmoid'))
 classifier.add(Dense(units=4, activation='softmax'))
 
 classifier.compile(
@@ -65,16 +65,15 @@ print(testing_dataset.data_format)
 ##################################################################
 
 # load weights into new model
-classifier.load_weights("model-50times.h5")
+#classifier.load_weights("model-50times-rmffd.h5")
 
-print("Loaded model from disk")
+#print("Loaded model from disk")
 
 # evaluate loaded model on test data
-classifier.compile(loss='binary_crossentropy',
-                   optimizer='adam', metrics=['accuracy'])
-loss, acc = classifier.evaluate(testing_dataset, verbose=2)
-print('Restored model, accuracy: {:5.2f}%'.format(100 * acc))
-
+#classifier.compile(loss='binary_crossentropy',
+#                   optimizer='adam', metrics=['accuracy'])
+#loss, acc = classifier.evaluate(testing_dataset, verbose=2)
+#print('Restored model, accuracy: {:5.2f}%'.format(100 * acc))
 
 ##################################################################
 # GUI for the model
@@ -98,11 +97,7 @@ class HomePage(QMainWindow):
         widget.addWidget(signup)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
-    def gotohelp(self):
-        help = Help()
-        widget.addWidget(help)
-        widget.setCurrentIndex(widget.currentIndex() + 1)  
-        
+
 class MainFunction(QDialog):
     def __init__(self):
         super(MainFunction, self).__init__()
@@ -130,16 +125,13 @@ class MainFunction(QDialog):
 
     def analyze(self):
         global test_image, classifier
-        print("before")
-        # if test_image:
-        print("123")
-        # if test_image:
         result = classifier.predict(test_image)
+        print(result)
         self.plot_chart(result[0])
         plt.show()
         self.textLabel.setText(str(testing_dataset.class_indices) +
                                "\n" + str(result) + "\n" + str(np.argmax(result[0])))
-
+        
     def plot_chart(self, predictions):
         plt.grid(False)
         label = ['glioma', 'meningioma', 'notumor', 'pituitary']
@@ -227,17 +219,7 @@ class Signup(QDialog):
         widget.addWidget(homePage)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
-class Help(QDialog):
-    def __init__(self):
-        super(Help, self).__init__()
-        loadUi("D:/google downloads/Intelligent-Neurosurgical-Patient-Profiling-Model_Project-master/Intelligent-Neurosurgical-Patient-Profiling-Model_Project-master/ui/help.ui", self)
-        self.homeButton.clicked.connect(self.backtohome)
 
-        
-
-    def backtohome(self):
-        widget.addWidget(homePage)
-        widget.setCurrentIndex(widget.currentIndex() + 1)
 App = QApplication(sys.argv)
 homePage = HomePage()
 widget = QStackedWidget()
