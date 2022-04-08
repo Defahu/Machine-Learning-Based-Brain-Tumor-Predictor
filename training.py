@@ -108,5 +108,5 @@ with open("model.json", "w") as json_file:
     json_file.write(model_json)
 
 # serialize weights to HDF5
-classifier.save_weights("model-50times-rmffd.h5")
+classifier.save_weights("model-50times.h5")
 print("Saved model to disk")
