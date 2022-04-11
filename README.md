@@ -1,4 +1,4 @@
-# Intelligent-Neurosurgical-Patient-Profiling-Model_Project
+# Machine Learning-Based Brain Tumor Predictor
 # SYSC 4907 Fourth Year Project
 
 #Files:
